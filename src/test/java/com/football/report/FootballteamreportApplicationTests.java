@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.football.report.pojo.ResponseData;
+import com.football.report.pojo.StandingResponse;
 import com.football.report.service.FootballService;
 
 
@@ -30,16 +30,16 @@ class FootballteamreportApplicationTests {
 	
 	@Test
 	public void testSuccess() throws ParseException, IOException {
-		ResponseData obj = footballService.getStandingsData("England", "Championship", "Swansea");
+		StandingResponse obj = footballService.getStandingsData("England", "Championship", "Swansea");
 		assertNotNull(obj);
-		System.out.println(obj.getCountry_name());
-		assertEquals("England", obj.getCountry_name());
+		System.out.println(obj.getCountryName());
+		assertEquals("England", obj.getCountryName());
 	}
 	
 	@Test
 	public void testFailure() {
 		try {
-			ResponseData obj = footballService.getStandingsData("India", "Premier League", "Leicester");
+			StandingResponse obj = footballService.getStandingsData("India", "Premier League", "Leicester");
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 			assertThat(e.getMessage().contains("Error while fetching"));

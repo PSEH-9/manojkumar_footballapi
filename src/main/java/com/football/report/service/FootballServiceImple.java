@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.football.report.pojo.Country;
 import com.football.report.pojo.League;
-import com.football.report.pojo.ResponseData;
+import com.football.report.pojo.StandingResponse;
 import com.football.report.pojo.Standing;
 import com.football.report.pojo.Team;
 
@@ -34,28 +34,32 @@ public class FootballServiceImple implements FootballService{
 	
 	
 	@Override
-	public ResponseData getStandingsData(String countryName, String leagueName, String teamName) {
-		ResponseData respData = new ResponseData();
+	public StandingResponse getStandingsData(String countryName, String leagueName, String teamName) {
+		StandingResponse respData = new StandingResponse();
 		
 		Country c = getCountry(countryName);
 		if(c != null) {
-			respData.setCountry_name(c.getCountry_name());
-			respData.setCountry_id(c.getCountry_id());
+			respData.setCountryName(c.getCountry_name());
+			respData.setCountryId(c.getCountry_id());
 			
 			League league = getLeagues(leagueName, c.getCountry_id());
-			respData.setLeague_name(league.getLeague_name());
-			respData.setLegaue_id(league.getLeague_id());
+			if(league != null) {
+				respData.setLeagueName(league.getLeague_name());
+				respData.setLeagueId(league.getLeague_id());
+				
+				Team team = getTeam(teamName, league.getLeague_id());
+				if(team != null) {
+					respData.setTeamId(team.getTeam_key());
+					respData.setTeamName(team.getTeam_name());
+				}
+				
+				Standing standing = getStanding(teamName, league.getLeague_id());
+				respData.setOverAllPosition(standing.getOverall_league_position());
+			}
 			
-			Team team = getTeam(teamName, league.getLeague_id());
-			respData.setTeam_id(team.getTeam_key());
-			respData.setTeam_name(team.getTeam_name());
 			
-			Standing standing = getStanding(teamName, league.getLeague_id());
-			respData.setOverall_league_position(standing.getOverall_league_position());
-		}else {
 			
 		}
-		
 		
 		return respData;
 	}

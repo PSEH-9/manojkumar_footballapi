@@ -1,7 +1,7 @@
 package com.football.report.service;
 
-import com.football.report.pojo.ResponseData;
+import com.football.report.pojo.StandingResponse;
 
 public interface FootballService {
-	public ResponseData getStandingsData(String countryName, String leagueName, String teamName);
+	public StandingResponse getStandingsData(String countryName, String leagueName, String teamName);
 }

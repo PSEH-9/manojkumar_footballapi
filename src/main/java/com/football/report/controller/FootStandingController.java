@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.football.report.pojo.ResponseData;
+import com.football.report.pojo.StandingResponse;
 import com.football.report.service.FootballService;
 
 public class FootStandingController {
@@ -16,13 +16,13 @@ public class FootStandingController {
 	private FootballService footballService;
 	
 	@RequestMapping(value  = "/findstandings/{contryname}/{leaguename}/{teamname}", method = RequestMethod.GET)
-	public ResponseEntity<ResponseData> getReport(
+	public ResponseEntity<StandingResponse> getReport(
 			@PathVariable(value = "leaguename",required = true) String countryName ,
 			@PathVariable(value = "leaguename",required = true) String leagueName, 
 			@PathVariable(value = "teamname",required = true) String teamName) {
 		
-		ResponseData data = footballService.getStandingsData(countryName, leagueName, teamName);
-		return new ResponseEntity<ResponseData>(data,HttpStatus.OK);
+		StandingResponse data = footballService.getStandingsData(countryName, leagueName, teamName);
+		return new ResponseEntity<StandingResponse>(data,HttpStatus.OK);
 		
 	}
 }
